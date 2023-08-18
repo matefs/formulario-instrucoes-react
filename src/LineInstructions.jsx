@@ -1,106 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
-const LineInstructions = ({ lineInstructions, setLineInstructions }) => {
-  const selectedLineInstructionRef = useRef({ fields: [] });
-  const [newField, setNewField] = useState({
-    name: '',
-    startPos: '',
-    endPos: '',
-  });
+function Form() {
+  const [lineInstructions, setLineInstructions] = useState([
+    {
+      startLine: 1,
+      endLine: 1,
+      fields: [
+        { name: 'Company Name', startPos: 1, endPos: 27 },
+        { name: 'Fiscal Year', startPos: 28, endPos: 31 },
+      ],
+    },
+    {
+      startLine: 2,
+      endLine: 3,
+      fields: [
+        { name: 'Campo 1 ao 8', startPos: 1, endPos: 8 },
+        { name: 'Another Field', startPos: 8, endPos: 28 },
+      ],
+    },
+  ]);
 
-  useEffect(() => {
-    const selectedLineInstruction = lineInstructions.find(
-      (lineInstruction) => lineInstruction.startLine === 1
-    ) || { fields: [] }; // Default value with an empty fields array
-    selectedLineInstructionRef.current = selectedLineInstruction;
-  }, [lineInstructions]);
-
-  const handleCreateField = () => {
-    if (
-      newField.name !== '' &&
-      newField.startPos !== '' &&
-      newField.endPos !== ''
-    ) {
-      const newLineInstruction = {
-        ...selectedLineInstructionRef.current,
-        fields: [...selectedLineInstructionRef.current.fields, newField],
-      };
-      selectedLineInstructionRef.current = newLineInstruction;
-      setLineInstructions((prevInstructions) =>
-        prevInstructions.map((instruction) =>
-          instruction.startLine === newLineInstruction.startLine
-            ? newLineInstruction
-            : instruction
-        )
-      );
-      setNewField({ name: '', startPos: '', endPos: '' });
-    }
+  const handleFieldChange = (lineIndex, fieldIndex, propName, propValue) => {
+    const updatedLineInstructions = [...lineInstructions];
+    updatedLineInstructions[lineIndex].fields[fieldIndex][propName] = propValue;
+    setLineInstructions(updatedLineInstructions);
   };
 
-  const handleUpdateField = (field) => {
-    setNewField({
-      ...field,
-    });
-  };
-
-  const handleDeleteField = (field) => {
-    const newLineInstruction = {
-      ...selectedLineInstructionRef.current,
-      fields: selectedLineInstructionRef.current.fields.filter(
-        (f) => f !== field
-      ),
-    };
-    selectedLineInstructionRef.current = newLineInstruction;
-    setLineInstructions((prevInstructions) =>
-      prevInstructions.map((instruction) =>
-        instruction.startLine === newLineInstruction.startLine
-          ? newLineInstruction
-          : instruction
-      )
-    );
-  };
-
-  const handleSelectLineInstruction = (lineInstruction) => {
-    selectedLineInstructionRef.current = lineInstruction;
+  const handleSave = () => {
+    // Replace this with your save logic
+    console.log('Saving line instructions:', lineInstructions);
   };
 
   return (
     <div>
-      <h1>Line Instructions</h1>
-      <ul>
-        {lineInstructions.map((lineInstruction, index) => (
-          <li key={index}>
-            <h2>Line {lineInstruction.startLine}</h2>
-            <ul>
-              {lineInstruction.fields.map((field, fieldIndex) => (
-                <li key={fieldIndex}>
-                  <input
-                    type="text"
-                    value={field.name}
-                    onChange={(e) =>
-                      handleUpdateField({ ...field, name: e.target.value })
-                    }
-                  />
-                  {/* Other input fields */}
-                  <button onClick={() => handleDeleteField(field)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => handleCreateField()}>
-              Create New Field
-            </button>
-            <button
-              onClick={() => handleSelectLineInstruction(lineInstruction)}
-            >
-              Select
-            </button>
-          </li>
-        ))}
-      </ul>
+      {lineInstructions.map((line, lineIndex) => (
+        <div key={lineIndex}>
+          <p>Start Line: {line.startLine} - End Line: {line.endLine}</p>
+          {line.fields.map((field, fieldIndex) => (
+            <div key={fieldIndex}>
+              <label htmlFor={`line${lineIndex}field${fieldIndex}Name`}>Name</label>
+              <input
+                type="text"
+                id={`line${lineIndex}field${fieldIndex}Name`}
+                value={field.name}
+                onChange={(event) =>
+                  handleFieldChange(lineIndex, fieldIndex, 'name', event.target.value)
+                }
+              />
+
+              <label htmlFor={`line${lineIndex}field${fieldIndex}StartPos`}>Start Pos</label>
+              <input
+                type="number"
+                id={`line${lineIndex}field${fieldIndex}StartPos`}
+                value={field.startPos}
+                onChange={(event) =>
+                  handleFieldChange(lineIndex, fieldIndex, 'startPos', parseInt(event.target.value))
+                }
+              />
+
+              <label htmlFor={`line${lineIndex}field${fieldIndex}EndPos`}>End Pos</label>
+              <input
+                type="number"
+                id={`line${lineIndex}field${fieldIndex}EndPos`}
+                value={field.endPos}
+                onChange={(event) =>
+                  handleFieldChange(lineIndex, fieldIndex, 'endPos', parseInt(event.target.value))
+                }
+              />
+            </div>
+          ))}
+        </div>
+      ))}
+      <button onClick={handleSave}>Save</button>
     </div>
   );
-};
+}
 
-export default LineInstructions;
+export default Form;
