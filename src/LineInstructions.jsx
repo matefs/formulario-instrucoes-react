@@ -35,36 +35,59 @@ function Form() {
     <div>
       {lineInstructions.map((line, lineIndex) => (
         <div key={lineIndex}>
-          <p>Start Line: {line.startLine} - End Line: {line.endLine}</p>
+          <p>
+            Start Line: {line.startLine} - End Line: {line.endLine}
+          </p>
           {line.fields.map((field, fieldIndex) => (
             <div key={fieldIndex}>
-              <label htmlFor={`line${lineIndex}field${fieldIndex}Name`}>Name</label>
+              <label htmlFor={`line${lineIndex}field${fieldIndex}Name`}>
+                Name
+              </label>
               <input
                 type="text"
                 id={`line${lineIndex}field${fieldIndex}Name`}
                 value={field.name}
                 onChange={(event) =>
-                  handleFieldChange(lineIndex, fieldIndex, 'name', event.target.value)
+                  handleFieldChange(
+                    lineIndex,
+                    fieldIndex,
+                    'name',
+                    event.target.value
+                  )
                 }
               />
 
-              <label htmlFor={`line${lineIndex}field${fieldIndex}StartPos`}>Start Pos</label>
+              <label htmlFor={`line${lineIndex}field${fieldIndex}StartPos`}>
+                Start Pos
+              </label>
               <input
                 type="number"
                 id={`line${lineIndex}field${fieldIndex}StartPos`}
                 value={field.startPos}
                 onChange={(event) =>
-                  handleFieldChange(lineIndex, fieldIndex, 'startPos', parseInt(event.target.value))
+                  handleFieldChange(
+                    lineIndex,
+                    fieldIndex,
+                    'startPos',
+                    parseInt(event.target.value)
+                  )
                 }
               />
 
-              <label htmlFor={`line${lineIndex}field${fieldIndex}EndPos`}>End Pos</label>
+              <label htmlFor={`line${lineIndex}field${fieldIndex}EndPos`}>
+                End Pos
+              </label>
               <input
                 type="number"
                 id={`line${lineIndex}field${fieldIndex}EndPos`}
                 value={field.endPos}
                 onChange={(event) =>
-                  handleFieldChange(lineIndex, fieldIndex, 'endPos', parseInt(event.target.value))
+                  handleFieldChange(
+                    lineIndex,
+                    fieldIndex,
+                    'endPos',
+                    parseInt(event.target.value)
+                  )
                 }
               />
             </div>
@@ -72,6 +95,13 @@ function Form() {
         </div>
       ))}
       <button onClick={handleSave}>Save</button>
+
+      <div>
+        <h1> Adicionar nova linha </h1>
+        Começo linha <input />
+        Fim linha <input />
+        <input type='submit' />
+      </div>
     </div>
   );
 }
