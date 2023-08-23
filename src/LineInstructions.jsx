@@ -20,35 +20,45 @@ function Form() {
     },
   ]);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const addLine = (newLine) => {
+    setLineInstructions((prevInstructions) => [...prevInstructions, newLine]);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // You can perform form submission logic here
-    console.log(formData);
+    addLine({ start, end });
+    setStart('');
+    setEnd('');
   };
- 
+
   return (
     <div>
       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
 
       <div>
-        <h1> Adicionar nova linha </h1>
-        Começo linha <input />
-        Fim linha <input />
-        <input type="submit" />
+        <h1>Adicionar nova linha</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            Começo linha{' '}
+            <input
+              type="text"
+              value={start}
+              onChange={(e) => setStart(e.target.value)}
+            />
+          </div>
+          <div>
+            Fim linha{' '}
+            <input
+              type="text"
+              value={end}
+              onChange={(e) => setEnd(e.target.value)}
+            />
+          </div>
+          <input type="submit" value="Adicionar" />
+        </form>
       </div>
     </div>
   );
