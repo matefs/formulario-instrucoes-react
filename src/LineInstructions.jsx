@@ -20,87 +20,35 @@ function Form() {
     },
   ]);
 
-  const handleFieldChange = (lineIndex, fieldIndex, propName, propValue) => {
-    const updatedLineInstructions = [...lineInstructions];
-    updatedLineInstructions[lineIndex].fields[fieldIndex][propName] = propValue;
-    setLineInstructions(updatedLineInstructions);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleSave = () => {
-    // Replace this with your save logic
-    console.log('Saving line instructions:', lineInstructions);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // You can perform form submission logic here
+    console.log(formData);
   };
-
+ 
   return (
     <div>
-      {lineInstructions.map((line, lineIndex) => (
-        <div key={lineIndex}>
-          <p>
-            Start Line: {line.startLine} - End Line: {line.endLine}
-          </p>
-          {line.fields.map((field, fieldIndex) => (
-            <div key={fieldIndex}>
-              <label htmlFor={`line${lineIndex}field${fieldIndex}Name`}>
-                Name
-              </label>
-              <input
-                type="text"
-                id={`line${lineIndex}field${fieldIndex}Name`}
-                value={field.name}
-                onChange={(event) =>
-                  handleFieldChange(
-                    lineIndex,
-                    fieldIndex,
-                    'name',
-                    event.target.value
-                  )
-                }
-              />
-
-              <label htmlFor={`line${lineIndex}field${fieldIndex}StartPos`}>
-                Start Pos
-              </label>
-              <input
-                type="number"
-                id={`line${lineIndex}field${fieldIndex}StartPos`}
-                value={field.startPos}
-                onChange={(event) =>
-                  handleFieldChange(
-                    lineIndex,
-                    fieldIndex,
-                    'startPos',
-                    parseInt(event.target.value)
-                  )
-                }
-              />
-
-              <label htmlFor={`line${lineIndex}field${fieldIndex}EndPos`}>
-                End Pos
-              </label>
-              <input
-                type="number"
-                id={`line${lineIndex}field${fieldIndex}EndPos`}
-                value={field.endPos}
-                onChange={(event) =>
-                  handleFieldChange(
-                    lineIndex,
-                    fieldIndex,
-                    'endPos',
-                    parseInt(event.target.value)
-                  )
-                }
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-      <button onClick={handleSave}>Save</button>
+      <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
 
       <div>
         <h1> Adicionar nova linha </h1>
         Começo linha <input />
         Fim linha <input />
-        <input type='submit' />
+        <input type="submit" />
       </div>
     </div>
   );
