@@ -24,7 +24,7 @@ function Form() {
   TODO: make the correct name when added a new line
    */
 
-  const [start, setStart] = useState('');
+  const [startLine, setStart] = useState('');
   const [end, setEnd] = useState('');
 
   const addLine = (newLine) => {
@@ -33,7 +33,7 @@ function Form() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addLine({ start, end });
+    addLine({ startLine, end });
     setStart('');
     setEnd('');
   };
@@ -49,7 +49,7 @@ function Form() {
             Começo linha{' '}
             <input
               type="text"
-              value={start}
+              value={startLine}
               onChange={(e) => setStart(e.target.value)}
             />
           </div>
