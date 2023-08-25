@@ -25,17 +25,20 @@ function Form() {
    */
 
   const [startLine, setStart] = useState('');
-  const [end, setEnd] = useState('');
+  const [endLine, setEndLine] = useState('');
 
   const addLine = (newLine) => {
-    setLineInstructions((prevInstructions) => [...prevInstructions, newLine]);
+    setLineInstructions((prevInstructions) => [
+      ...prevInstructions,
+      { ...newLine },
+    ]);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addLine({ startLine, end });
+    addLine({ startLine, endLine });
     setStart('');
-    setEnd('');
+    setEndLine('');
   };
 
   return (
@@ -57,8 +60,8 @@ function Form() {
             Fim linha{' '}
             <input
               type="text"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
+              value={endLine}
+              onChange={(e) => setEndLine(e.target.value)}
             />
           </div>
           <input type="submit" value="Adicionar" />
