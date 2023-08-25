@@ -28,12 +28,11 @@ function Form() {
   const [endLine, setEndLine] = useState('');
 
   const addLine = (newLine) => {
-    console.log(newLine, newLine.startLine);
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
-    const existingLine = lineInstructions.find(
-      (line) =>
-        line.startLine === newLine.startLine && line.endLine === newLine.endLine
-    );
+    const existingLine = lineInstructions.find(function (line) {
+      console.log(line);
+      line.startLine === newLine.startLine && line.endLine === newLine.endLine;
+    });
 
     if (existingLine) {
       console.log('Essa linha já existe.');
