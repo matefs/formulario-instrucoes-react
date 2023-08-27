@@ -20,8 +20,6 @@ function Form() {
     },
   ]);
 
- 
-
   const [startLine, setStart] = useState('');
   const [endLine, setEndLine] = useState('');
 
@@ -45,7 +43,7 @@ function Form() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addLine({ startLine, endLine });
+    addLine({ startLine, endLine, fields: []});
     setStart('');
     setEndLine('');
   };
