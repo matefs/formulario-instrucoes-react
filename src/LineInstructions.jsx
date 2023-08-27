@@ -20,9 +20,7 @@ function Form() {
     },
   ]);
 
-  /*   
-  TODO: make the correct name when added a new line
-   */
+ 
 
   const [startLine, setStart] = useState('');
   const [endLine, setEndLine] = useState('');
