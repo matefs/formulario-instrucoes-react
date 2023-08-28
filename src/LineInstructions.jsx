@@ -25,15 +25,15 @@ function Form() {
 
   const addLine = (newLine) => {
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
-    const existingLine = lineInstructions.find(function (line) {
+    const lineExists = lineInstructions.some((line) => {
       return (
-        line.startLine === newLine.startLine && line.endLine === newLine.endLine
+        line.startLine == newLine.startLine || line.endLine == newLine.endLine
       );
     });
 
-    console.log(existingLine);
+    //console.log(lineExists);
 
-    if (existingLine) {
+    if (lineExists) {
       console.log('Essa linha já existe.');
       return;
     } else {
