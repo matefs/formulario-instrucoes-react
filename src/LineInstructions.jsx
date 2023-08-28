@@ -27,14 +27,14 @@ function Form() {
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
     const lineExists = lineInstructions.some((line) => {
       return (
-        line.startLine == newLine.startLine || line.endLine == newLine.endLine
+        line.startLine == newLine.startLine || line.endLine == newLine.endLine || newLine.startLine == line.endLine
       );
     });
 
     //console.log(lineExists);
 
     if (lineExists) {
-      console.log('Essa linha já existe.');
+      alert('Essa linha já existe.');
       return;
     } else {
       setLineInstructions((prevInstructions) => [
