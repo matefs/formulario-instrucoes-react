@@ -147,7 +147,6 @@ function Form() {
             >
               Adicionar novo campo
             </button>
-            <hr />
           </div>
         ))}
       </div>
