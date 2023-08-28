@@ -26,24 +26,27 @@ function Form() {
   const addLine = (newLine) => {
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
     const existingLine = lineInstructions.find(function (line) {
-      console.log(line);
-      line.startLine === newLine.startLine && line.endLine === newLine.endLine;
+      return (
+        line.startLine === newLine.startLine && line.endLine === newLine.endLine
+      );
     });
+
+    console.log(existingLine);
 
     if (existingLine) {
       console.log('Essa linha já existe.');
-      return;  
+      return;
+    } else {
+      setLineInstructions((prevInstructions) => [
+        ...prevInstructions,
+        { ...newLine },
+      ]);
     }
-
-    setLineInstructions((prevInstructions) => [
-      ...prevInstructions,
-      { ...newLine },
-    ]);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addLine({ startLine, endLine, fields: []});
+    addLine({ startLine, endLine, fields: [] });
     setStart('');
     setEndLine('');
   };
