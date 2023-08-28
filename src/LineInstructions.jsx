@@ -99,7 +99,7 @@ function Form() {
       <div>
         {lineInstructions.map((line, lineIndex) => (
           <div
-            style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '10%',   }}
+            style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '10%' }}
             key={lineIndex}
           >
             <p>
@@ -109,7 +109,7 @@ function Form() {
               <div key={fieldIndex}>
                 <p>Nome do campo: {field.name}</p>
                 <label>
-                  Posição Position:
+                  Posição inicial:
                   <input
                     type="text"
                     value={field.startPos}
