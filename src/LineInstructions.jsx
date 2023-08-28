@@ -32,7 +32,7 @@ function Form() {
 
     if (existingLine) {
       console.log('Essa linha já existe.');
-      return; // Não adiciona a linha se já existir uma correspondente
+      return;  
     }
 
     setLineInstructions((prevInstructions) => [
