@@ -23,11 +23,29 @@ function Form() {
   const [startLine, setStart] = useState('');
   const [endLine, setEndLine] = useState('');
 
+  const handleFieldChange = (lineIndex, fieldIndex, key, value) => {
+    const updatedInstructions = [...lineInstructions];
+    updatedInstructions[lineIndex].fields[fieldIndex][key] = value;
+    setLineInstructions(updatedInstructions);
+  };
+
+  const handleAddField = (lineIndex) => {
+    const updatedInstructions = [...lineInstructions];
+    updatedInstructions[lineIndex].fields.push({
+      name: 'New Field',
+      startPos: '',
+      endPos: '',
+    });
+    setLineInstructions(updatedInstructions);
+  };
+
   const addLine = (newLine) => {
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
     const lineExists = lineInstructions.some((line) => {
       return (
-        line.startLine == newLine.startLine || line.endLine == newLine.endLine || newLine.startLine == line.endLine
+        line.startLine == newLine.startLine ||
+        line.endLine == newLine.endLine ||
+        newLine.startLine == line.endLine
       );
     });
 
@@ -76,6 +94,55 @@ function Form() {
           </div>
           <input type="submit" value="Adicionar" />
         </form>
+      </div>
+
+      <div>
+        {lineInstructions.map((line, lineIndex) => (
+          <div key={lineIndex}>
+            <p>
+              Start Line: {line.startLine} | End Line: {line.endLine}
+            </p>
+            {line.fields.map((field, fieldIndex) => (
+              <div key={fieldIndex}>
+                <p>Field Name: {field.name}</p>
+                <label>
+                  Start Position:
+                  <input
+                    type="text"
+                    value={field.startPos}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        lineIndex,
+                        fieldIndex,
+                        'startPos',
+                        e.target.value
+                      )
+                    }
+                  />
+                </label>
+                <label>
+                  End Position:
+                  <input
+                    type="text"
+                    value={field.endPos}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        lineIndex,
+                        fieldIndex,
+                        'endPos',
+                        e.target.value
+                      )
+                    }
+                  />
+                </label>
+              </div>
+            ))}
+            <button onClick={() => handleAddField(lineIndex)}>
+              Add New Field
+            </button>
+            <hr />
+          </div>
+        ))}
       </div>
     </div>
   );
