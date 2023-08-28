@@ -71,8 +71,8 @@ function Form() {
 
   return (
     <div>
-      <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
-
+{/*       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
+ */}
       <div>
         <h1>Adicionar nova linha</h1>
         <form onSubmit={handleSubmit}>
@@ -96,9 +96,9 @@ function Form() {
         </form>
       </div>
 
-      <div>
+      <div >
         {lineInstructions.map((line, lineIndex) => (
-          <div key={lineIndex}>
+          <div style={{backgroundColor:'rgba(0,0,0,.1)', marginTop:'10%'}} key={lineIndex}>
             <p>
               Start Line: {line.startLine} | End Line: {line.endLine}
             </p>
@@ -137,7 +137,7 @@ function Form() {
                 </label>
               </div>
             ))}
-            <button onClick={() => handleAddField(lineIndex)}>
+            <button style={{margin:'3%'}} onClick={() => handleAddField(lineIndex)}>
               Add New Field
             </button>
             <hr />
