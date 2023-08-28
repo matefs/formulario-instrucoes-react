@@ -71,8 +71,8 @@ function Form() {
 
   return (
     <div>
-{/*       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
- */}
+      {/*       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
+       */}
       <div>
         <h1>Adicionar nova linha</h1>
         <form onSubmit={handleSubmit}>
@@ -96,17 +96,20 @@ function Form() {
         </form>
       </div>
 
-      <div >
+      <div>
         {lineInstructions.map((line, lineIndex) => (
-          <div style={{backgroundColor:'rgba(0,0,0,.1)', marginTop:'10%'}} key={lineIndex}>
+          <div
+            style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '10%',   }}
+            key={lineIndex}
+          >
             <p>
-              Start Line: {line.startLine} | End Line: {line.endLine}
+              Linha de início: {line.startLine} | Linha final: {line.endLine}
             </p>
             {line.fields.map((field, fieldIndex) => (
               <div key={fieldIndex}>
-                <p>Field Name: {field.name}</p>
+                <p>Nome do campo: {field.name}</p>
                 <label>
-                  Start Position:
+                  Posição Position:
                   <input
                     type="text"
                     value={field.startPos}
@@ -120,8 +123,9 @@ function Form() {
                     }
                   />
                 </label>
+                <br />
                 <label>
-                  End Position:
+                  Posição final:
                   <input
                     type="text"
                     value={field.endPos}
@@ -137,8 +141,11 @@ function Form() {
                 </label>
               </div>
             ))}
-            <button style={{margin:'3%'}} onClick={() => handleAddField(lineIndex)}>
-              Add New Field
+            <button
+              style={{ margin: '3%' }}
+              onClick={() => handleAddField(lineIndex)}
+            >
+              Adicionar novo campo
             </button>
             <hr />
           </div>
