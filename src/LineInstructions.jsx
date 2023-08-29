@@ -23,16 +23,18 @@ function Form() {
   const [startLine, setStart] = useState('');
   const [endLine, setEndLine] = useState('');
 
+  const [newFieldName, setNewFieldName] = useState('')
+
   const handleFieldChange = (lineIndex, fieldIndex, key, value) => {
     const updatedInstructions = [...lineInstructions];
     updatedInstructions[lineIndex].fields[fieldIndex][key] = value;
     setLineInstructions(updatedInstructions);
   };
 
-  const handleAddField = (lineIndex) => {
+  const handleAddField = (lineIndex,newFieldName) => {
     const updatedInstructions = [...lineInstructions];
     updatedInstructions[lineIndex].fields.push({
-      name: 'New Field',
+      name: newFieldName,
       startPos: '',
       endPos: '',
     });
@@ -141,9 +143,11 @@ function Form() {
                 </label>
               </div>
             ))}
+
+            <input type='text' onChange={ (e) => setNewFieldName((e.target.value))} placeholder='Nome do campo'/>
             <button
               style={{ margin: '3%' }}
-              onClick={() => handleAddField(lineIndex)}
+              onClick={() => handleAddField(lineIndex,newFieldName)}
             >
               Adicionar novo campo
             </button>
