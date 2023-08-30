@@ -38,7 +38,7 @@ function Form() {
       startPos: '',
       endPos: '',
     });
-    setLineInstructions(updatedInstructions);
+    setLineInstructions(updatedInstructions); 
   };
 
   const addLine = (newLine) => {
@@ -144,13 +144,18 @@ function Form() {
               </div>
             ))}
 
-            <input type='text' onChange={ (e) => setNewFieldName((e.target.value))} placeholder='Nome do campo'/>
+<form onSubmit={(e) =>  {e.preventDefault(); e.target.reset(); // Redefine o formulário para limpar os campos
+}}>
+            <input type='text' onChange={ (e) => setNewFieldName((e.target.value))} placeholder='Nome do novo campo'/>
             <button
               style={{ margin: '3%' }}
               onClick={() => handleAddField(lineIndex,newFieldName)}
+              type='submit'
             >
               Adicionar novo campo
             </button>
+</form>
+
           </div>
         ))}
       </div>
