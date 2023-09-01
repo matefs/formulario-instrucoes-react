@@ -32,13 +32,21 @@ function Form() {
   };
 
   const handleAddField = (lineIndex,newFieldName) => {
-    const updatedInstructions = [...lineInstructions];
-    updatedInstructions[lineIndex].fields.push({
-      name: newFieldName,
-      startPos: '',
-      endPos: '',
-    });
-    setLineInstructions(updatedInstructions); 
+    let lineInstructionNameAlreadyExist = lineInstructions[lineIndex].fields.some((item) => item.name == newFieldName);
+
+    if(lineInstructionNameAlreadyExist){
+      alert('Nome de campo ja existe')
+      return 
+    }else{
+      const updatedInstructions = [...lineInstructions];
+      updatedInstructions[lineIndex].fields.push({
+        name: newFieldName,
+        startPos: '',
+        endPos: '',
+      });
+      setLineInstructions(updatedInstructions); 
+    }
+
   };
 
   const addLine = (newLine) => {
