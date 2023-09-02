@@ -32,7 +32,7 @@ function Form() {
   };
 
   const handleAddField = (lineIndex,newFieldName) => {
-    let lineInstructionNameAlreadyExist = lineInstructions[lineIndex].fields.some((item) => item.name == newFieldName);
+    let lineInstructionNameAlreadyExist = lineInstructions[lineIndex].fields.some((item) => item.name.toLowerCase() == newFieldName.toLowerCase());
 
     if(lineInstructionNameAlreadyExist){
       alert('Nome de campo ja existe')
