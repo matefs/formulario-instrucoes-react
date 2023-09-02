@@ -149,6 +149,8 @@ function Form() {
                     }
                   />
                 </label>
+                <br />
+                <button> salvar instrucoes </button>
               </div>
             ))}
 
