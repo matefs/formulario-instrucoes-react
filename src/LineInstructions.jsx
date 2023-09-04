@@ -131,7 +131,7 @@ function Form({lineInstructions,setLineInstructions}) {
                   />
                 </label>
                 <br />
-                <button> Salvar instrucoes </button>
+                <button> Salvar instruções </button>
               </div>
             ))}
 
