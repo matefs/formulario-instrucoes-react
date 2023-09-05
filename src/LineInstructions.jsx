@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-function Form({lineInstructions,setLineInstructions}) {
+function Form({ lineInstructions, setLineInstructions }) {
   const [startLine, setStart] = useState('');
   const [endLine, setEndLine] = useState('');
 
-  const [newFieldName, setNewFieldName] = useState('')
+  const [newFieldName, setNewFieldName] = useState('');
 
   const handleFieldChange = (lineIndex, fieldIndex, key, value) => {
     const updatedInstructions = [...lineInstructions];
@@ -12,22 +12,25 @@ function Form({lineInstructions,setLineInstructions}) {
     setLineInstructions(updatedInstructions);
   };
 
-  const handleAddField = (lineIndex,newFieldName) => {
-    let lineInstructionNameAlreadyExist = lineInstructions[lineIndex].fields.some((item) => item.name.toLowerCase() == newFieldName.toLowerCase());
+  const handleAddField = (lineIndex, newFieldName) => {
+    let lineInstructionNameAlreadyExist = lineInstructions[
+      lineIndex
+    ].fields.some(
+      (item) => item.name.toLowerCase() == newFieldName.toLowerCase()
+    );
 
-    if(lineInstructionNameAlreadyExist){
-      alert('Nome de campo ja existe')
-      return 
-    }else{
+    if (lineInstructionNameAlreadyExist) {
+      alert('Nome de campo ja existe');
+      return;
+    } else {
       const updatedInstructions = [...lineInstructions];
       updatedInstructions[lineIndex].fields.push({
         name: newFieldName,
         startPos: '',
         endPos: '',
       });
-      setLineInstructions(updatedInstructions); 
+      setLineInstructions(updatedInstructions);
     }
-
   };
 
   const addLine = (newLine) => {
@@ -97,56 +100,73 @@ function Form({lineInstructions,setLineInstructions}) {
               Linha de início: {line.startLine} | Linha final: {line.endLine}
             </p>
             {line.fields.map((field, fieldIndex) => (
-              <div key={fieldIndex}>
-                <p>Nome do campo: {field.name}</p>
-                <label>
-                  Posição inicial:
-                  <input
-                    type="text"
-                    value={field.startPos}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        lineIndex,
-                        fieldIndex,
-                        'startPos',
-                        e.target.value
-                      )
-                    }
-                  />
-                </label>
-                <br />
-                <label>
-                  Posição final:
-                  <input
-                    type="text"
-                    value={field.endPos}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        lineIndex,
-                        fieldIndex,
-                        'endPos',
-                        e.target.value
-                      )
-                    }
-                  />
-                </label>
-                <br /><br />
-                <button> Salvar instruções </button>
-              </div>
+              <form
+                key={fieldIndex}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  console.log(event.target[0].value);
+                  console.log(event.target[1].value);
+                }}
+              >
+                <div>
+                  <p>Nome do campo: {field.name}</p>
+                  <label>
+                    Posição inicial:
+                    <input
+                      type="text"
+                      value={field.startPos}
+                      onChange={(e) =>
+                        handleFieldChange(
+                          lineIndex,
+                          fieldIndex,
+                          'startPos',
+                          e.target.value
+                        )
+                      }
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    Posição final:
+                    <input
+                      type="text"
+                      value={field.endPos}
+                      onChange={(e) =>
+                        handleFieldChange(
+                          lineIndex,
+                          fieldIndex,
+                          'endPos',
+                          e.target.value
+                        )
+                      }
+                    />
+                  </label>
+                  <br />
+                  <br />
+                  <button type="submit">Salvar instruções</button>
+                </div>
+              </form>
             ))}
 
-<form onSubmit={(e) =>  {e.preventDefault(); e.target.reset(); // Redefine o formulário para limpar os campos
-}}>
-            <input type='text' onChange={ (e) => setNewFieldName((e.target.value))} placeholder='Nome do novo campo'/>
-            <button
-              style={{ margin: '3%' }}
-              onClick={() => handleAddField(lineIndex,newFieldName)}
-              type='submit'
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.target.reset(); // Redefine o formulário para limpar os campos
+              }}
             >
-              Adicionar novo campo
-            </button>
-</form>
-
+              <input
+                type="text"
+                onChange={(e) => setNewFieldName(e.target.value)}
+                placeholder="Nome do novo campo"
+              />
+              <button
+                style={{ margin: '3%' }}
+                onClick={() => handleAddField(lineIndex, newFieldName)}
+                type="submit"
+              >
+                Adicionar novo campo
+              </button>
+            </form>
           </div>
         ))}
       </div>
