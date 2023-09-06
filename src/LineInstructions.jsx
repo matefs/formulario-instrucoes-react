@@ -64,26 +64,30 @@ function Form({ lineInstructions, setLineInstructions }) {
   };
 
   const handleFieldInitialFinalPosition = (event) => {
-    
-      event.preventDefault();
-      let posicaoInicial = event.target[0].value
-      let posicaoFinal = event.target[1].value
-      let indiceLinha = event.target[2].value;
-      let indiceCampo = event.target[3].value;
+    event.preventDefault();
 
+    let posicaoInicial = event.target[0].value;
+    let posicaoFinal = event.target[1].value;
+    let indiceLinha = event.target[2].value;
+    let indiceCampo = event.target[3].value;
 
-      const updatedInstructions = [...lineInstructions];
-      updatedInstructions[indiceLinha].fields[indiceCampo].startPos = posicaoInicial;
-      updatedInstructions[indiceLinha].fields[indiceCampo].endPos = posicaoFinal;
+    /*       let jaExistePosicaoInicialFinalBooleano = updatedInstructions[indiceLinha].fields[indiceCampo].some((item) => item.startPos == posicaoInicial )
+      console.log(jaExistePosicaoInicialFinalBooleano) */
+
       
-      setLineInstructions(updatedInstructions); 
-    
-  }
+
+    const updatedInstructions = [...lineInstructions];
+    updatedInstructions[indiceLinha].fields[indiceCampo].startPos =
+      posicaoInicial;
+    updatedInstructions[indiceLinha].fields[indiceCampo].endPos = posicaoFinal;
+
+    setLineInstructions(updatedInstructions);
+  };
 
   return (
     <div>
-      {/*       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
-       */}
+      {/*       {      <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
+      } */}
       <div>
         <h1>Adicionar nova linha</h1>
         <form onSubmit={handleSubmit}>
@@ -119,25 +123,18 @@ function Form({ lineInstructions, setLineInstructions }) {
             {line.fields.map((field, fieldIndex) => (
               <form
                 key={fieldIndex}
-                onSubmit={(event) => handleFieldInitialFinalPosition(event) }
+                onSubmit={(event) => handleFieldInitialFinalPosition(event)}
               >
                 <div>
                   <p>Nome do campo: {field.name}</p>
                   <label>
                     Posição inicial:
-                    <input
-                      type="text"
-                      defaultValue={field.startPos}
-                      onChange={(e) => e}
-                    />
+                    <input type="text" defaultValue={field.startPos} />
                   </label>
                   <br />
                   <label>
                     Posição final:
-                    <input
-                      type="text"
-                      defaultValue={field.endPos} 
-                    />
+                    <input type="text" defaultValue={field.endPos} />
                   </label>
                   <br />
                   <br />
