@@ -115,14 +115,14 @@ function Form({ lineInstructions, setLineInstructions }) {
                     <input
                       type="text"
                       value={field.startPos}
-                      onChange={(e) =>
+/*                       onChange={(e) =>
                         handleFieldChange(
                           lineIndex,
                           fieldIndex,
                           'startPos',
                           e.target.value
                         )
-                      }
+                      } */
                     />
                   </label>
                   <br />
@@ -131,14 +131,14 @@ function Form({ lineInstructions, setLineInstructions }) {
                     <input
                       type="text"
                       value={field.endPos}
-                      onChange={(e) =>
+/*                       onChange={(e) =>
                         handleFieldChange(
                           lineIndex,
                           fieldIndex,
                           'endPos',
                           e.target.value
                         )
-                      }
+                      } */
                     />
                   </label>
                   <br />
