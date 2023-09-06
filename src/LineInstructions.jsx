@@ -63,6 +63,23 @@ function Form({ lineInstructions, setLineInstructions }) {
     setEndLine('');
   };
 
+  const handleFieldInitialFinalPosition = (event) => {
+    
+      event.preventDefault();
+      let posicaoInicial = event.target[0].value
+      let posicaoFinal = event.target[1].value
+      let indiceLinha = event.target[2].value;
+      let indiceCampo = event.target[3].value;
+
+
+      const updatedInstructions = [...lineInstructions];
+      updatedInstructions[indiceLinha].fields[indiceCampo].startPos = posicaoInicial;
+      updatedInstructions[indiceLinha].fields[indiceCampo].endPos = posicaoFinal;
+      
+      setLineInstructions(updatedInstructions); 
+    
+  }
+
   return (
     <div>
       {/*       <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
@@ -102,11 +119,7 @@ function Form({ lineInstructions, setLineInstructions }) {
             {line.fields.map((field, fieldIndex) => (
               <form
                 key={fieldIndex}
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  console.log(event.target[0].value);
-                  console.log(event.target[1].value);
-                }}
+                onSubmit={(event) => handleFieldInitialFinalPosition(event) }
               >
                 <div>
                   <p>Nome do campo: {field.name}</p>
@@ -114,15 +127,8 @@ function Form({ lineInstructions, setLineInstructions }) {
                     Posição inicial:
                     <input
                       type="text"
-                      value={field.startPos}
-/*                       onChange={(e) =>
-                        handleFieldChange(
-                          lineIndex,
-                          fieldIndex,
-                          'startPos',
-                          e.target.value
-                        )
-                      } */
+                      defaultValue={field.startPos}
+                      onChange={(e) => e}
                     />
                   </label>
                   <br />
@@ -130,19 +136,13 @@ function Form({ lineInstructions, setLineInstructions }) {
                     Posição final:
                     <input
                       type="text"
-                      value={field.endPos}
-/*                       onChange={(e) =>
-                        handleFieldChange(
-                          lineIndex,
-                          fieldIndex,
-                          'endPos',
-                          e.target.value
-                        )
-                      } */
+                      defaultValue={field.endPos} 
                     />
                   </label>
                   <br />
                   <br />
+                  <input value={lineIndex} style={{ display: 'none' }} />
+                  <input value={fieldIndex} style={{ display: 'none' }} />
                   <button type="submit">Salvar instruções</button>
                 </div>
               </form>
