@@ -17,7 +17,7 @@ export default function App() {
       endLine: 3,
       fields: [
         { name: 'Campo 1 ao 8', startPos: 1, endPos: 8 },
-        { name: 'Another Field', startPos: 8, endPos: 28 },
+        { name: 'Another Field', startPos: 9, endPos: 28 },
       ],
     },
   ]);
