@@ -6,11 +6,6 @@ function Form({ lineInstructions, setLineInstructions }) {
 
   const [newFieldName, setNewFieldName] = useState('');
 
-  const handleFieldChange = (lineIndex, fieldIndex, key, value) => {
-    const updatedInstructions = [...lineInstructions];
-    updatedInstructions[lineIndex].fields[fieldIndex][key] = value;
-    setLineInstructions(updatedInstructions);
-  };
 
   const handleAddField = (lineIndex, newFieldName) => {
     let lineInstructionNameAlreadyExist = lineInstructions[
