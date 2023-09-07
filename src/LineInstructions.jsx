@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
 function Form({ lineInstructions, setLineInstructions }) {
-  var [startLine, setStart] = useState('');
-  var [endLine, setEndLine] = useState('');
+  const [startLine, setStart] = useState();
+  const [endLine, setEndLine] = useState();
 
   const [newFieldName, setNewFieldName] = useState('');
-
 
   const handleAddField = (lineIndex, newFieldName) => {
     let lineInstructionNameAlreadyExist = lineInstructions[
@@ -29,6 +28,9 @@ function Form({ lineInstructions, setLineInstructions }) {
   };
 
   const addLine = (newLine) => {
+    newLine.startLine = Number(newLine.startLine);
+    newLine.endLine = Number(newLine.endLine);
+
     // Verificar se já existe um startLine e endLine iguais aos que estão sendo adicionados
     const lineExists = lineInstructions.some((line) => {
       return (
@@ -44,8 +46,6 @@ function Form({ lineInstructions, setLineInstructions }) {
       alert('Essa linha já existe.');
       return;
     } else {
-      startLine = Number(startLine);
-      endLine = Number(endLine);    
       setLineInstructions((prevInstructions) => [
         ...prevInstructions,
         { ...newLine },
@@ -63,56 +63,61 @@ function Form({ lineInstructions, setLineInstructions }) {
   const handleFieldInitialFinalPosition = (event) => {
     event.preventDefault();
 
-    let posicaoInicial = event.target[0].value;
-    let posicaoFinal = event.target[1].value;
-    let indiceLinha = event.target[2].value;
-    let indiceCampo = event.target[3].value;
-    
+    let posicaoInicial = Number(event.target[0].value);
+    let posicaoFinal = Number(event.target[1].value);
+    let indiceLinha = Number(event.target[2].value);
+    let indiceCampo = Number(event.target[3].value);
+
     const updatedInstructions = [...lineInstructions];
-    let nomeCampoIndividual = updatedInstructions[indiceLinha].fields[indiceCampo].name
- 
+    let nomeCampoIndividual =
+      updatedInstructions[indiceLinha].fields[indiceCampo].name;
+
     let impedirSalvamento = false;
- 
+
     updatedInstructions[indiceLinha].fields.map((InteractedField) => {
-
-      /* Valida se em outros campos dessa mesma linha já existe essa posição inicial e final  */ 
-      if (InteractedField.name != nomeCampoIndividual){
-        if(InteractedField.startPos == posicaoInicial || InteractedField.endPos == posicaoFinal ){
-          alert(`Já existe um campo com essa posicao inicia ou final no campo ${InteractedField.name}`)
+      /* Valida se em outros campos dessa mesma linha já existe essa posição inicial e final  */
+      if (InteractedField.name != nomeCampoIndividual) {
+        if (
+          InteractedField.startPos == posicaoInicial ||
+          InteractedField.endPos == posicaoFinal
+        ) {
+          alert(
+            `Já existe um campo com essa posicao inicia ou final no campo ${InteractedField.name}`
+          );
           impedirSalvamento = true;
-        } 
+        }
       }
+    });
 
-    })
+    posicaoInicial <= posicaoFinal
+      ? null
+      : (function () {
+          alert('A posicao inicial não pode ser maior do que a final');
+          impedirSalvamento = true;
+        })();
 
-    posicaoInicial < posicaoFinal ? null : (function() {
-      alert('A posicao inicial não pode ser maior do que a final')
-      impedirSalvamento = true;
-    })();
-
-    
-    impedirSalvamento == true ? null : (function() {
-
-    updatedInstructions[indiceLinha].fields[indiceCampo].startPos = posicaoInicial;
-    updatedInstructions[indiceLinha].fields[indiceCampo].endPos = posicaoFinal;
-    setLineInstructions(updatedInstructions);
-    
-    })();
-
-
+    impedirSalvamento == true
+      ? null
+      : (function () {
+          updatedInstructions[indiceLinha].fields[indiceCampo].startPos =
+            posicaoInicial;
+          updatedInstructions[indiceLinha].fields[indiceCampo].endPos =
+            posicaoFinal;
+          setLineInstructions(updatedInstructions);
+        })();
   };
 
   return (
     <div>
-     {      <pre> {JSON.stringify(lineInstructions, null, 2)} </pre>
-      }  
+      {<pre> {JSON.stringify(lineInstructions, null, 2)} </pre>}
+
       <div>
         <h1>Adicionar nova linha</h1>
         <form onSubmit={handleSubmit}>
           <div>
             Começo linha{' '}
             <input
-              type="text"
+              type="number"
               value={startLine}
               onChange={(e) => setStart(e.target.value)}
             />
@@ -120,7 +125,7 @@ function Form({ lineInstructions, setLineInstructions }) {
           <div>
             Fim linha{' '}
             <input
-              type="text"
+              type="number"
               value={endLine}
               onChange={(e) => setEndLine(e.target.value)}
             />
