@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Input, Form, Button, Card } from 'antd';
 
 function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
   const [startLine, setStart] = useState();
   const [endLine, setEndLine] = useState();
+  const [addNewLineEmpatyWithFieldsForm] = Form.useForm();
 
   const [newFieldName, setNewFieldName] = useState('');
 
@@ -40,24 +42,35 @@ function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
       );
     });
 
-    //console.log(lineExists);
-
-    if (lineExists) {
-      alert('Essa linha já existe.');
+    /* Validacao se ja existe ou se inicial é maior que final */
+    if(newLine.startLine > newLine.endLine ){
+      alert('A linha inicial não pode ser maior que a linha final ');
       return;
     } else {
-      setLineInstructions((prevInstructions) => [
-        ...prevInstructions,
-        { ...newLine },
-      ]);
+      if (lineExists) {
+        alert('Essa linha já existe.');
+        return;
+      } else {
+        setLineInstructions((prevInstructions) => [
+          ...prevInstructions,
+          { ...newLine },
+        ]);
+      }
     }
+
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addLine({ startLine, endLine, fields: [] });
+  const handleSubmit = (values) => {
+//    event.preventDefault();
+    const newLine = {
+      startLine: values.startLine,
+      endLine: values.endLine,
+      fields: [],
+    };
+    addLine(newLine);;
     setStart('');
     setEndLine('');
+    addNewLineEmpatyWithFieldsForm.resetFields();
   };
 
   const handleFieldInitialFinalPosition = (event) => {
@@ -109,31 +122,45 @@ function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
 
   return (
     <div>
-      {/*<pre> {JSON.stringify(lineInstructions, null, 2)} </pre> */}
+    
+    { <pre style={{ position: 'fixed', top: '10px', right: '10px', textShadow:'1px 1px white', zIndex:999}}>
+    {JSON.stringify(lineInstructions, null, 2)}
+    </pre> }
 
-      <div>
+
+<div>
         <h1>Adicionar nova linha</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            Começo linha{' '}
-            <input
-              type="number"
-              value={startLine}
-              onChange={(e) => setStart(e.target.value)}
-            />
-          </div>
-          <div>
-            Fim linha{' '}
-            <input
-              type="number"
-              value={endLine}
-              onChange={(e) => setEndLine(e.target.value)}
-            />
-          </div>
-          <input type="submit" value="Adicionar" />
-        </form>
-      </div>
+        <Form
+          form={addNewLineEmpatyWithFieldsForm}
+          onFinish={handleSubmit}
+          initialValues={{ startLine: '', endLine: '' }}
 
+        >
+          <Form.Item
+            label="Começo linha"
+            name="startLine"
+            rules={[{ required: true, message: 'Campo obrigatório' }]}
+            defaultValue={''}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Fim linha"
+            name="endLine"
+            rules={[{ required: true, message: 'Campo obrigatório' }]}
+            defaultValue={''}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Adicionar
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+      
+      
       <div>
         {lineInstructions.map((line, lineIndex) => (
           <div
