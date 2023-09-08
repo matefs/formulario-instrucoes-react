@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Form({ lineInstructions, setLineInstructions }) {
+function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
   const [startLine, setStart] = useState();
   const [endLine, setEndLine] = useState();
 
@@ -109,7 +109,7 @@ function Form({ lineInstructions, setLineInstructions }) {
 
   return (
     <div>
-      {<pre> {JSON.stringify(lineInstructions, null, 2)} </pre>}
+      {/*<pre> {JSON.stringify(lineInstructions, null, 2)} </pre> */}
 
       <div>
         <h1>Adicionar nova linha</h1>
@@ -194,4 +194,4 @@ function Form({ lineInstructions, setLineInstructions }) {
   );
 }
 
-export default Form;
+export default LineInstructionsForm;
