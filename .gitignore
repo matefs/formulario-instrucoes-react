@@ -1,0 +1,46 @@
+# Módulos NPM (diretório node_modules)
+/node_modules
+
+# Dependências específicas do projeto
+/package-lock.json
+/yarn.lock
+
+# Logs e arquivos temporários
+npm-debug.log*
+yarn-error.log*
+.pnp.js
+
+# Diretório local de build (geralmente, o nome pode variar)
+/build
+
+# Dependências do editor (exemplo: Visual Studio Code)
+.vscode
+.idea
+
+# Arquivos de configuração (exemplo: dotenv)
+.env
+
+# Arquivos gerados durante a execução (exemplo: coverage)
+/coverage
+
+# Arquivos de saída de build (exemplo: dist)
+/dist
+
+# Arquivos de cache
+/.eslintcache
+
+# Logs de testes
+/test-results
+
+# Diretórios vazios (você pode adicionar mais conforme necessário)
+/.cache
+
+# Arquivos de ambiente locais (exemplo: .env.local)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependências não rastreadas (adicionadas via .npmignore)
+*.tgz
+*.d.ts
