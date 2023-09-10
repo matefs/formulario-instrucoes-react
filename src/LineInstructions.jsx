@@ -120,9 +120,11 @@ const handleFieldInitialFinalPosition = (event) => {
 
   return (
     <div>
-<pre style={{ position: 'fixed', top: '10px', right: '10px', textShadow: '1px 1px white', zIndex: 999, maxHeight: '80vh', overflow: 'auto' }}>
+
+{/* <pre style={{ position: 'fixed', top: '10px', right: '10px', textShadow: '1px 1px white', zIndex: 999, maxHeight: '80vh', overflow: 'auto' }}>
   {JSON.stringify(lineInstructions, null, 2)}
 </pre>
+ */}
 
 <div>
         <h1>Adicionar nova linha</h1>
