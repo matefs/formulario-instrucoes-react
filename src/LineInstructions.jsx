@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Form, Button, Card } from 'antd';
+import { Input, Form, Button, Card, Typography } from 'antd';
 
 function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
   const [startLine, setStart] = useState();
@@ -165,11 +165,26 @@ const handleFieldInitialFinalPosition = (event) => {
             style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '2%' }}
             key={lineIndex}
           >
-            <p>
+
+          <section style={{display:'flex', gap:'10px'}}>
+            <Typography>
               Linha de início: {line.startLine} | Linha final: {line.endLine}
-            </p>
+            </Typography>
+              <Button type='primary' 
+              style={{marginTop:'-0.4%'}} 
+              danger
+              onClick={() => {
+                const updatedInstructions = lineInstructions.filter((item) => item.startLine != line.startLine && item.endLine !== line.endLine)
+                setLineInstructions(updatedInstructions)
+                console.log(updatedInstructions) 
+
+              }} 
+              >Remover linha </Button>
+          </section>
+
             {line.fields.map((field, fieldIndex) => (
               <form
+                style={{marginTop:'1%'}}
                 key={fieldIndex}
                 onSubmit={(event) => handleFieldInitialFinalPosition(event)}
               >
@@ -211,7 +226,6 @@ const handleFieldInitialFinalPosition = (event) => {
             </Form.Item>
             <Form.Item>
               <Button
-                style={{ margin: '3%' }}
                 type="primary"
                 htmlType="submit"
               >
