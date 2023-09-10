@@ -214,6 +214,7 @@ const handleFieldInitialFinalPosition = (event) => {
 
             }}
             initialValues={{ newFieldName: '' }}
+            style={{marginTop:'1%'}}
           >
             <Form.Item
               name="newFieldName"
