@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import LineInstructions from './LineInstructions';
+import LineInstructions from './LineInstructionsForm';
 
 export default function App() {
   const [lineInstructions, setLineInstructions] = useState([
