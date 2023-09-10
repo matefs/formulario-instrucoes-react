@@ -4,14 +4,13 @@ import { Input, Form, Button, Card } from 'antd';
 function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
   const [startLine, setStart] = useState();
   const [endLine, setEndLine] = useState();
-  const [addNewLineEmpatyWithFieldsForm] = Form.useForm();
+  const [addNewLineEmptyWithFieldsForm] = Form.useForm();
 
+  const [formNewFieldInsideLine] = Form.useForm()
   const [newFieldName, setNewFieldName] = useState('');
 
   const handleAddField = (lineIndex, newFieldName) => {
-    let lineInstructionNameAlreadyExist = lineInstructions[
-      lineIndex
-    ].fields.some(
+    let lineInstructionNameAlreadyExist = lineInstructions[lineIndex].fields.some(
       (item) => item.name.toLowerCase() == newFieldName.toLowerCase()
     );
 
@@ -70,68 +69,65 @@ function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
     addLine(newLine);;
     setStart('');
     setEndLine('');
-    addNewLineEmpatyWithFieldsForm.resetFields();
+    addNewLineEmptyWithFieldsForm.resetFields();
   };
+ 
+const handleFieldInitialFinalPosition = (event) => {
+  event.preventDefault();
 
-  const handleFieldInitialFinalPosition = (event) => {
-    event.preventDefault();
+  let posicaoInicial = Number(event.target[0].value);
+  let posicaoFinal = Number(event.target[1].value);
+  let indiceLinha = Number(event.target[2].value);
+  let indiceCampo = Number(event.target[3].value);
 
-    let posicaoInicial = Number(event.target[0].value);
-    let posicaoFinal = Number(event.target[1].value);
-    let indiceLinha = Number(event.target[2].value);
-    let indiceCampo = Number(event.target[3].value);
+  const updatedInstructions = [...lineInstructions];
+  let nomeCampoIndividual =
+    updatedInstructions[indiceLinha].fields[indiceCampo].name;
 
-    const updatedInstructions = [...lineInstructions];
-    let nomeCampoIndividual =
-      updatedInstructions[indiceLinha].fields[indiceCampo].name;
+  let impedirSalvamento = false;
 
-    let impedirSalvamento = false;
-
-    updatedInstructions[indiceLinha].fields.map((InteractedField) => {
-      /* Valida se em outros campos dessa mesma linha já existe essa posição inicial e final  */
-      if (InteractedField.name != nomeCampoIndividual) {
-        if (
-          InteractedField.startPos == posicaoInicial ||
-          InteractedField.endPos == posicaoFinal
-        ) {
-          alert(
-            `Já existe um campo com essa posicao inicia ou final no campo ${InteractedField.name}`
-          );
-          impedirSalvamento = true;
-        }
+  updatedInstructions[indiceLinha].fields.forEach((InteractedField) => {
+    /* Valida se em outros campos dessa mesma linha já existe essa posição inicial e final  */
+    if (InteractedField.name !== nomeCampoIndividual) {
+      if (
+        InteractedField.startPos === posicaoInicial ||
+        InteractedField.endPos === posicaoFinal
+      ) {
+        alert(
+          `Já existe um campo com essa posição inicial ou final no campo ${InteractedField.name}`
+        );
+        impedirSalvamento = true;
       }
-    });
+    }
+  });
 
-    posicaoInicial <= posicaoFinal
-      ? null
-      : (function () {
-          alert('A posicao inicial não pode ser maior do que a final');
-          impedirSalvamento = true;
-        })();
+  if (posicaoInicial > posicaoFinal) {
+    alert('A posição inicial não pode ser maior do que a final');
+    impedirSalvamento = true;
+  }
 
-    impedirSalvamento == true
-      ? null
-      : (function () {
-          updatedInstructions[indiceLinha].fields[indiceCampo].startPos =
-            posicaoInicial;
-          updatedInstructions[indiceLinha].fields[indiceCampo].endPos =
-            posicaoFinal;
-          setLineInstructions(updatedInstructions);
-        })();
-  };
+  if (impedirSalvamento) {
+    alert('Erro: a instrução não foi salva');
+  } else {
+    updatedInstructions[indiceLinha].fields[indiceCampo].startPos = posicaoInicial;
+    updatedInstructions[indiceLinha].fields[indiceCampo].endPos = posicaoFinal;
+    setLineInstructions(updatedInstructions);
+    alert('Instrução salva com sucesso!');
+  }
+};
+
+
 
   return (
     <div>
-    
-    { <pre style={{ position: 'fixed', top: '10px', right: '10px', textShadow:'1px 1px white', zIndex:999}}>
-    {JSON.stringify(lineInstructions, null, 2)}
-    </pre> }
-
+<pre style={{ position: 'fixed', top: '10px', right: '10px', textShadow: '1px 1px white', zIndex: 999, maxHeight: '80vh', overflow: 'auto' }}>
+  {JSON.stringify(lineInstructions, null, 2)}
+</pre>
 
 <div>
         <h1>Adicionar nova linha</h1>
         <Form
-          form={addNewLineEmpatyWithFieldsForm}
+          form={addNewLineEmptyWithFieldsForm}
           onFinish={handleSubmit}
           initialValues={{ startLine: '', endLine: '' }}
 
@@ -163,8 +159,8 @@ function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
       
       <div>
         {lineInstructions.map((line, lineIndex) => (
-          <div
-            style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '10%' }}
+          <Card
+            style={{ backgroundColor: 'rgba(0,0,0,.1)', marginTop: '2%' }}
             key={lineIndex}
           >
             <p>
@@ -175,48 +171,58 @@ function LineInstructionsForm({ lineInstructions, setLineInstructions }) {
                 key={fieldIndex}
                 onSubmit={(event) => handleFieldInitialFinalPosition(event)}
               >
-                <div>
+                <Card>
                   <p>Nome do campo: {field.name}</p>
                   <label>
                     Posição inicial:
-                    <input type="text" defaultValue={field.startPos} />
-                  </label>
-                  <br />
+                    <Input type="number" defaultValue={field.startPos} />
+                  </label> 
                   <label>
                     Posição final:
-                    <input type="text" defaultValue={field.endPos} />
-                  </label>
-                  <br />
-                  <br />
-                  <input value={lineIndex} style={{ display: 'none' }} />
-                  <input value={fieldIndex} style={{ display: 'none' }} />
-                  <button type="submit">Salvar instruções</button>
-                </div>
+                    <Input type="number" defaultValue={field.endPos} />
+                  </label> 
+                  <Input value={lineIndex} style={{ display: 'none' }} />
+                  <Input value={fieldIndex} style={{ display: 'none' }} />
+                  <Button type="primary" htmlType='submit' style={{margin: '1%'}}>Salvar instruções</Button>
+                </Card>
               </form>
             ))}
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                e.target.reset(); // Redefine o formulário para limpar os campos
-              }}
+
+          <Form
+            form={formNewFieldInsideLine}
+            onFinish={(values) => {
+              handleAddField(lineIndex, values.newFieldName);
+              formNewFieldInsideLine.resetFields();
+
+            }}
+            initialValues={{ newFieldName: '' }}
+          >
+            <Form.Item
+              name="newFieldName"
+              initialValue={''}
             >
-              <input
+              <Input
                 type="text"
-                onChange={(e) => setNewFieldName(e.target.value)}
                 placeholder="Nome do novo campo"
               />
-              <button
+            </Form.Item>
+            <Form.Item>
+              <Button
                 style={{ margin: '3%' }}
-                onClick={() => handleAddField(lineIndex, newFieldName)}
-                type="submit"
+                type="primary"
+                htmlType="submit"
               >
                 Adicionar novo campo
-              </button>
-            </form>
-          </div>
+              </Button>
+            </Form.Item>
+          </Form>
+
+          </Card>
         ))}
       </div>
+
+
     </div>
   );
 }
